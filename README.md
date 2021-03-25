@@ -6,10 +6,11 @@ Is a multiplayer browser based multiplayer game, written primary in JavaScript. 
 ## Installation
   - Clone the project 
   - Make sure that you have installed node.js
-  - In your terminal run ```bash node app.js
-```
+  - In your terminal run 
+```bash node app.js ```
+  - In your browser access http://localhost:9997/
+  - Enjoy
 
-## Setup
 
 
 ## License
