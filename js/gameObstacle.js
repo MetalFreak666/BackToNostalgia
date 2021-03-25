@@ -33,7 +33,7 @@ var gameObstacle = function(id, x, y, obstacleType, game) {
     }
 }
 
-//
+//Function for adding obstacles to the current game
 function addObstacle(data) {
     var id = data.id;
     var x = data.x;

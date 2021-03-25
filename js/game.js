@@ -125,7 +125,6 @@ function create() {
     createEnemyBullets();
     //Initial handshake when client connect to the game
     onSocketConnected();
-    //
     //Socket.io handlers
     socket.on('createPlayer', createPlayerTank);
     //
@@ -148,9 +147,9 @@ function create() {
     socket.on('updateScore', updateScore);
     //
     socket.on('updateHealth', updateHealth);
-    
+    //
     socket.on('onEnemyCollectedAmmo', updateAmmoBoxes);
-    
+    //
     socket.on('onEnemyCollectedHealth', updateHealthBoxes);
     
     //Creating object that contains 4 hotkeys for Up,Down,Righ,Left 

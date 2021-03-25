@@ -25,7 +25,6 @@ var gameItems = function(id, x, y, bonusType) {
 }
 
 function addBonusItems (data) {
-    //console.log(data);
     var id = data.id;
     var x = data.x;
     var y = data.y;
@@ -66,9 +65,6 @@ function findGameItem(id){
         } 
     } 
 }
-
-
-
 
 
 function findAmmoItem(id){

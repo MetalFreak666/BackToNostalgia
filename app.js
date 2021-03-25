@@ -91,7 +91,6 @@ function createAmmoItem() {
         //Pushing ammo item to the array of items
         var item = new BonusItem(id, x, y, bonusValue, bonusType);
         itemsInGame.push(item);
-        //console.log(item);
     }  
 }
 
@@ -105,10 +104,10 @@ function createHealthItem() {
         var y = randomInt(100, 1500);
         var bonusValue = randomInt(1, 20);
         var bonusType = 2;
+
         //Pushing ammo item to the array of items
         var item = new BonusItem(id, x, y, bonusValue, bonusType);
         itemsInGame.push(item);
-        //console.log(item);
     }  
 }
 
@@ -134,9 +133,6 @@ function findItemID(id) {
 
 //Listening on socket.io connected
 io.sockets.on('connection', function(socket){
-    //console.log("how many" + obstaclesInGame.length);
-	//Test
-    console.log("socket connected " + socket.id);
     //When socket disconnect
 	socket.on('disconnect', onClientdisconnect);
     //When create new player
@@ -149,12 +145,13 @@ io.sockets.on('connection', function(socket){
     socket.on('playerFire', onPlayerFire);
     //When player hit enemy tank
     socket.on('playerHitEnemy', onPlayerHitEnemy);
-    //
+    //When player collects ammo box
     socket.on('playerCollectedAmmo', onPlayerCollectedAmmo);
-    //
+    //When player collects health box
     socket.on('playerCollectedHealth', onPlayerCollectedHealth);
 });
 
+//When client diconnect
 function onClientdisconnect() {
 	console.log(this.id + ' disconnect');
     
@@ -170,19 +167,17 @@ function onClientdisconnect() {
         itemsInGame.length = 0;
     }
     
+    //Broadcasting player id to other connected players
     this.broadcast.emit('removePlayer', {id: this.id});
 }
 
-
-
-function createPlayer(data) {
-    console.log('create Player data: ' + data);
-    
+function createPlayer(data) {    
     var id = this.id;
     var x = data.x;
     var y = data.y;
     var angle = data.angle;
-    //Our player initial values
+
+    //Player initial values
     var bullets = 50;
     var health = 100;
     var score = 0; 
@@ -208,12 +203,11 @@ function createPlayer(data) {
             this.emit('createObstacles', {id: id, x: x, y: y, obstacleType: obstacleType}); 
         }        
         for(i = 0; i < itemsInGame.length; i++) {
-            //console.log(itemsInGame.length);
             var id = itemsInGame[i].id;
             var x = itemsInGame[i].x;
             var y = itemsInGame[i].y;
             var bonusType = itemsInGame[i].bonusType;
-            
+
             this.emit('createAmmoItems', {id: id, x: x, y: y, bonusType: bonusType}); 
         }
         
@@ -229,7 +223,6 @@ function createPlayer(data) {
         }
         
         for(i = 0; i < itemsInGame.length; i++) {
-            //console.log(itemsInGame.length);
             var id = itemsInGame[i].id;
             var x = itemsInGame[i].x;
             var y = itemsInGame[i].y;
@@ -246,6 +239,7 @@ function createPlayer(data) {
         var x = existingPlayers.x;
         var y = existingPlayers.y;
         var angle = existingPlayers.angle;
+
         //Emiting info about enemies already conected to the game
         this.emit('createEnemy', {id: existingPlayers.id, x: existingPlayers.x, y: existingPlayers.y, angle: existingPlayers.angle})
     }
@@ -286,9 +280,9 @@ function onPlayerTurretMovement(data) {
 
 //When player fire bullet
 function onPlayerFire(data) {
-    //console.log('on player fire ' + JSON.stringify(data));
     var player = findPlayerID(this.id);
     var bulletsLeft = player.bullets - 1;
+
     //Updating bullets 
     updateBulletsAmount(player.id, bulletsLeft);
     
@@ -312,9 +306,7 @@ function onPlayerHitEnemy(data) {
         //Enemy lose 10 health when hit by bullet
         var health = enemy.health - 10;
         updatePlayerHealth(enemy.id, health);
-        console.log(health);
         this.broadcast.to(enemy.id).emit('updateHealth', health);
-        
     }
     
     if(player) {
@@ -333,10 +325,12 @@ function onPlayerCollectedAmmo(data) {
     
     //New amount of player bullets
     var bulletsUpdate = player.bullets + pickedItem.bonusValue;
+
     //Sending new amount of bullets to updateBulletsAmount() for update of bullets
     updateBulletsAmount(player.id, bulletsUpdate);
     
     this.broadcast.emit('onEnemyCollectedAmmo', {id: pickedItem.id});
+    
     //Removing item from array
     itemsInGame.splice(itemsInGame.indexOf(pickedItem), 1);
 }
