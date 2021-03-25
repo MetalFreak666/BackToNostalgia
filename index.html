@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<style>	
+	</style>
+    <meta charset="UTF-8">
+	<!-- Initializing socket.io and phaser.js script -->
+	<script defer src="js/phaser.min.js" type="text/javascript"></script>
+    <script defer src="/socket.io/socket.io.js"></script>
+	<!-- Loading javascript game files -->
+	<script defer src="js/map.js" type="text/javascript"></script>
+	<script defer src="js/gameObstacle.js" type="text/javascript"></script>
+	<script defer src="js/enemyTank.js" type="text/javascript"></script>
+	<script defer src="js/gameItems.js" type="text/javascript"></script>
+	<script defer src="js/enemyTankTurret.js" type="text/javascript"></script>
+	<script defer src="js/game.js" type="text/javascript"></script>	
+    <title>BackToNostalgia</title>
+</head>
+<body>
+	<!-- Game content will go here -->
+    <div id='game'></div>
+	<!-- Player HUD content -->
+	<div id='hud'>
+		Score:
+		<textarea name="score" id="score"></textarea>
+		Bullets left:
+		<textarea name="bullets" id="bullets"></textarea>
+		Life:
+		<textarea name="lifeBar" id="lifeBar"></textarea>
+	</div>
+	<!-- Hightscore content will go here! 
+	<div id="highScore">
+		<textarea name="highScoreTable" id="highScoreTable"></textarea>
+	</div>
+	-->
+	
+</body>
+</html>
